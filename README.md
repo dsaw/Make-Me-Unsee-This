@@ -4,7 +4,7 @@ This is a browser extension to black out some of the hate speech and offensive l
 
 ## Why?
 
-Sometimes you want a nicer browsing experience.
+Sometimes you just want a nicer browsing experience.
 
 ### Date
 
