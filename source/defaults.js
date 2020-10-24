@@ -75,23 +75,23 @@ var make_default_config = function(namelist) {
         }
 
         if (first) {
-            re_chunks.push(["((",first,'|',first.toUpperCase(),')\\s)'].join(''));
+            re_chunks.push(["((",first,')\\s)'].join(''));
             img_re_chunks.push(['(',first,'\\s)?'].join(''));
         }
         if (middles.length) {
             middles.forEach((middle) => {
-                re_chunks.push(["((",middle,'|',middle.toUpperCase(),')\\s)?'].join(''));
-                img_re_chunks.push(['(',middle,'\\s)?'].join(''));
+                re_chunks.push(["((",middle,')\\s)?'].join(''));
+                img_re_chunks.push(['(',middle,')\\s)?'].join(''));
             });
         }
         if (sur) {
-            re_chunks.push(["(",sur,'|',sur.toUpperCase(),')(?!\\w)'].join(''));
+            re_chunks.push(["(",sur,')(?!\\w)'].join(''));
             img_re_chunks.push(['(',sur,')(?!\\w)'].join(''));
         }
 
         var action = {
             default_enabled: true,
-            find_regex: [re_chunks.join(''), 'g'],
+            find_regex: [re_chunks.join(''), 'gi'],
             img_find_regex: [img_re_chunks.join(''), 'gi'],
         };
         o.actions[sur] = action;
