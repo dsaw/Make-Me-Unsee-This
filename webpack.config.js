@@ -7,7 +7,6 @@ module.exports = {
 	devtool: 'source-map',
 	stats: 'errors-only',
 	entry: {
-		background: './source/top',
 		options: './source/options'
 	},
 	output: {
@@ -19,8 +18,7 @@ module.exports = {
 		new CopyWebpackPlugin([
 			{
 				from: '**/*',
-				context: 'source',
-				ignore: ['*.js']
+				context: 'source'
 			},
 			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
