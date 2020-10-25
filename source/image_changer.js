@@ -1,5 +1,6 @@
 /* jshint esversion:6 */
-var ImageChanger = function(settings, config) {
+import {log, useIfElse} from "./shared";
+export var ImageChanger = function(settings, config) {
     this.current_settings = settings;
     this.current_config = config;
 };
@@ -47,7 +48,7 @@ var unReplaceEventHandler = function(ev) {
 
 
 
-ImageChanger.prototype.run = function(imgs = null) {
+ImageChanger.prototype.run = function(imgs = null, getRunnableActions) {
     log('switch_imgs()');
 
     // we do not need to do anything if we get a zero length list

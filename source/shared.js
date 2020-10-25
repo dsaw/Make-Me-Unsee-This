@@ -1,9 +1,9 @@
 /*jshint esversion:6 */
-var debug_mode = false;
+export var debug_mode = false;
 
-var log_count = 0;
+export var log_count = 0;
 
-function log(t) {
+export function log(t) {
     try {
         sd = document.getElementById('statusdiv');
         sd.innerText += '(' + log_count + '): ' + t + "\n";
@@ -15,14 +15,14 @@ function log(t) {
     }
 }
 
-function zapStorage(cb) {
+export function zapStorage(cb) {
     chrome.storage.local.clear(function() {
             cb(null);
     });
 }
 
 
-var loadConfig = function(settings, cb) {
+export var loadConfig = function(settings, cb, default_config) {
     chrome.storage.local.get(['cfgdata'],(items) => {
         if (items.cfgdata) {
             cb(null, items.cfgdata);
@@ -39,14 +39,14 @@ var loadConfig = function(settings, cb) {
 };
 
 
-function copyDictByKeys(dst, src) {
+export function copyDictByKeys(dst, src) {
     var ks = Object.keys(src);
     for (var i = 0; i < ks.length; i++) {
         dst[ks[i]] = src[ks[i]];
     }
 }
 
-function removeChildrenReplaceWith(elem, newchildren) {
+export function removeChildrenReplaceWith(elem, newchildren) {
     while (elem.firstChild) {
         elem.removeChild(elem.firstChild);
     }
@@ -55,11 +55,11 @@ function removeChildrenReplaceWith(elem, newchildren) {
     }
 }
 
-function useIfElse(dict, name, deflt) {
+export function useIfElse(dict, name, deflt) {
     return dict.hasOwnProperty(name) ? dict[name] : deflt;
 }
 
-function replace_elem_with_array_of_elems(orig, arry) {
+export function replace_elem_with_array_of_elems(orig, arry) {
     // log('replace_elem_with_array_of_elems');
     var newnode = document.createElement('span');
     for (var k = 0; k < arry.length; k++) {

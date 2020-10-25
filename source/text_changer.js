@@ -1,5 +1,9 @@
 /* jshint esversion:6 */
-var TextChanger = function(settings, config) {
+import {default_config, defaults} from "./defaults";
+import {log, useIfElse, replace_elem_with_array_of_elems} from "./shared";
+import * as tf from '@tensorflow/tfjs';
+import * as toxicity from '@tensorflow-models/toxicity';
+export var TextChanger = function(settings, config) {
     this.current_settings = settings;
     this.current_config = config;
 };
@@ -80,7 +84,7 @@ TextChanger.prototype.make_replacement_elems_array = function(args) {
 };
 
 
-TextChanger.prototype.run = function(elements = null) {
+TextChanger.prototype.run = async function(elements = null, getRunnableActions) {
     log('switch_text START');
 
     if (this.current_config === null) {
