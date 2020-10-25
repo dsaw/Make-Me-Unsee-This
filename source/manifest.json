@@ -18,6 +18,11 @@
         "default_title":"Configure",
         "default_popup":"options.html"
     },
+    "background": {
+		"scripts": [
+			"background.js"
+		]
+	},
     "content_scripts":[
         {
             "matches":[

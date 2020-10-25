@@ -26,10 +26,15 @@
 		"extends": "stylelint-config-xo"
 	},
 	"dependencies": {
+		"@tensorflow-models/toxicity": "^1.2.2",
+		"@tensorflow/tfjs": "^2.6.0",
 		"webext-options-sync": "^0.21.2",
 		"webextension-polyfill": "^0.4.0"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.12.3",
+		"@babel/preset-env": "^7.12.1",
+		"babel-loader": "^8.1.0",
 		"chrome-webstore-upload-cli": "^1.2.0",
 		"copy-webpack-plugin": "^5.0.3",
 		"daily-version": "^0.12.0",

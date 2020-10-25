@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
-
-var ControlTimers = function(callback) {
+import {defaults} from "./defaults";
+import {log} from "./shared";
+export var ControlTimers = function(callback) {
     this.runInfo = {
         trackMutations: false,
         currTimeout: 1000,

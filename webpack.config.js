@@ -7,7 +7,14 @@ module.exports = {
 	devtool: 'source-map',
 	stats: 'errors-only',
 	entry: {
-		options: './source/options'
+		background: './source/background',
+		options: './source/options',
+		defaults: './source/defaults',
+		shared: './source/shared',
+		text_changer: './source/text_changer',
+		image_changer: './source/image_changer',
+		timers: './source/timers',
+		top: './source/top'
 	},
 	output: {
 		path: path.join(__dirname, 'distribution'),
@@ -17,14 +24,20 @@ module.exports = {
 		new SizePlugin(),
 		new CopyWebpackPlugin([
 			{
-				from: '**/*',
-				context: 'source'
-			},
-			{
 				from: 'node_modules/webextension-polyfill/dist/browser-polyfill.min.js'
 			}
 		])
 	],
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: "babel-loader"
+				
+			}
+		]
+	},
 	optimization: {
 		minimizer: [
 			new TerserPlugin({

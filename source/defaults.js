@@ -40,7 +40,7 @@ var make_default_config = function(namelist) {
     };
 
     namelist.forEach((name) => {
-        var bycomma = name.split(/,\s/);
+        var bycomma = name.split(/,\s/), byspace;
         var sur = null; 
         var therest = [];
         if (bycomma.length == 2) {
@@ -100,11 +100,11 @@ var make_default_config = function(namelist) {
     return o;
 };
 
-var default_config = make_default_config(names);
+export var default_config = make_default_config(names);
 
 // console.log(JSON.stringify(default_config,null,2));
 
-var defaults = {
+export var defaults = {
     // classname for all insult styles
     insult_classname: 'blackedout',
 

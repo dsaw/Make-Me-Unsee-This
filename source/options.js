@@ -1,4 +1,7 @@
 /*jshint esversion:6 */
+import {default_config, defaults} from "./defaults";
+import {log, zapStorage, loadConfig, copyDictByKeys, removeChildrenReplaceWith, useIfElse, replace_elem_with_array_of_elems} from "./shared";
+
 function arraysEqual(arr1, arr2) {
     if (arr1.length !== arr2.length)
         return false;
@@ -8,6 +11,20 @@ function arraysEqual(arr1, arr2) {
     }
     return true;
 }
+var getCurrentWindowHost = function(cb) {
+    chrome.windows.getCurrent({populate:true}, (w) => {
+        for (var i=0;i<w.tabs.length;i++) {
+            var tab = w.tabs[i];
+            if (tab && tab.active) {
+                var a = document.createElement('a');
+                a.href = tab.url;
+                var host = a.hostname;
+                return cb(host);
+            }
+        }
+        return cb(null);
+    });
+};
 
 var OptionsThingy = function() {
     this.current_settings = {};
@@ -203,7 +220,7 @@ OptionsThingy.prototype.resetStorage = function() {
         loadConfig(tthis.current_settings, function(err, res) {
             tthis.updateConfigDisplay(err, res);
             tthis.restorePluginOptions();
-        });
+        }, default_config);
     });
 };
 
@@ -231,7 +248,7 @@ OptionsThingy.prototype.restorePluginOptions = function() {
             function() {});
 
         tthis.finishRestoringOptions();
-        loadConfig(tthis.current_settings, tthis.updateConfigDisplay.bind(tthis));
+        loadConfig(tthis.current_settings, tthis.updateConfigDisplay.bind(tthis), default_config);
     });
 };
 
@@ -446,7 +463,7 @@ OptionsThingy.prototype.saveConfigURL = function() {
         },
         function() {
             log('config_source saved');
-            loadConfig(tthis.current_settings, tthis.updateConfigDisplay);
+            loadConfig(tthis.current_settings, tthis.updateConfigDisplay, default_config);
             tthis.restorePluginOptions();
             log('saveConfigURL DONE');
         }
@@ -460,20 +477,6 @@ OptionsThingy.prototype.setupSaveHandlers = function() {
     }
 };
 
-getCurrentWindowHost = function(cb) {
-    chrome.windows.getCurrent({populate:true}, (w) => {
-        for (var i=0;i<w.tabs.length;i++) {
-            var tab = w.tabs[i];
-            if (tab && tab.active) {
-                var a = document.createElement('a');
-                a.href = tab.url;
-                var host = a.hostname;
-                return cb(host);
-            }
-        }
-        return cb(null);
-    });
-};
 
 function setup_handlers() {
 
