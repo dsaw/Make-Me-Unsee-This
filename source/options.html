@@ -171,6 +171,7 @@ textarea.disabled {
     </div>
     <div id="boilerplatediv">
       <hr>
+      <b>Need support? Visit one of the following:</b>
       <table width="100%">
           <tr><td valign="top"><a target="_blank" href="https://tellmamauk.org/about-us/">Tell MAMA: Measuring Anti-Muslim Attacks</a></td></tr>
           <tr><td valign="top"><a target="_blank" href="https://github.com/djacobow/blackouthate">CST: Protecting Jewish Community</a></td></tr>
@@ -179,7 +180,112 @@ textarea.disabled {
           <tr><td valign="top"><a target="_blank" href="https://www.equalityadvisoryservice.com/app/help">Equality Advisory and Support Service</a></td></tr>
           <tr><td valign="top"><a target="_blank" href="https://www.stophateuk.org/">Stop Hate UK</a></td></tr>
       </table>
+      <hr>
     </div>
+    <div id="reporthate">
+        <b>Report concering content</b><br>
+        Hate based on:<br>
+        <table width="100%">
+            <div class="tooltip">
+                <tr>
+                    <td width="19%">
+                        Race
+                        <input class="tooltip" type="checkbox" id="report_race" name="report_race" value="bloop">
+                    </td>
+                    <td width="19%">
+                        Religion
+                        <input class="tooltip" type="checkbox" id="report_religion" name="report_religion" value="bloop">
+                    </td>
+                    <td width="19%">
+                        Sexuality
+                        <input class="tooltip" type="checkbox" id="report_sex" name="report_sex" value="bloop">
+                    </td>
+                    <td width="19%">
+                        Disability
+                        <input class="tooltip" type="checkbox" id="report_disability" name="report_disability" value="bloop">
+                    </td>
+                    <td width="24%">
+                        Transgender
+                        <input class="tooltip" type="checkbox" id="report_transgender" name="report_transgender" value="bloop">
+                    </td>
+                </tr>
+        </table>
+    
+        <div class="tooltip" style="display: flex;">
+            Describe what happened: 
+            <textarea type="text" id="incident_description" cols="35" rows="1"></textarea>
+        </div>
+        <div class="tooltip" style="display: flex;">
+            When did it happen?
+            <input type="datetime-local" id="incident_time" name="incident_time"></input>
+        </div>
+        <div class="tooltip" style="display: flex;">
+            Where did it happen (link/app name):
+            <textarea type="text" id="incident_description" cols="35" rows="1"></textarea>
+        </div>
+        <div class="tooltip">
+            Evidence Upload: 
+            <form action="/action_page.php">
+                <input type="file" id="myFile" name="filename">
+                <input type="submit">
+            </form>
+        </div>
+        <div class="tooltip">
+            Do you want to be contacted about this?
+            <table width="50%">
+                <div class="tooltip">
+                    <tr>
+                        <td width="25%">
+                            Yes
+                            <input class="tooltip" type="checkbox" id="report_contacted_yes" name="report_contacted_yes" value="bloop">
+                        </td>
+                        <td width="25%">
+                            No
+                            <input class="tooltip" type="checkbox" id="report_contacted_no" name="report_contacted_no" value="bloop">
+                        </td>
+            </table>
+        </div>
+
+        <div class="tooltip">
+            Where to report to:
+            <table width="100%">
+                <div class="tooltip">
+                    <tr>
+                        <td width="14%">
+                            Tell MAMA
+                            <input class="tooltip" type="checkbox" id="report_to_tell_mama" name="report_to_tell_mama" value="bloop">
+                        </td>
+                        <td width="14%">
+                            CST
+                            <input class="tooltip" type="checkbox" id="report_to_cst" name="report_to_cst" value="bloop">
+                        </td>
+                        <td width="14%">
+                            GALOP
+                            <input class="tooltip" type="checkbox" id="report_to_galop" name="report_to_galop" value="bloop">
+                        </td>
+                        <td width="14%">
+                            Victim Support Wales
+                            <input class="tooltip" type="checkbox" id="report_to_victim_support_wales" name="report_to_victim_support_wales" value="bloop">
+                        </td>
+                        <td width="14%">
+                            True Vision (Online Hate Crime)
+                            <input class="tooltip" type="checkbox" id="report_to_true_vision" name="report_to_true_vision" value="bloop">
+                        </td>
+                        <td width="14%">
+                            EASS
+                            <input class="tooltip" type="checkbox" id="report_to_EASS" name="report_to_EASS" value="bloop">
+                        </td>
+                        <td width="14%">
+                            Stop Hate
+                            <input class="tooltip" type="checkbox" id="report_to_stop_hate" name="report_to_stop_hate" value="bloop">
+                        </td>
+                    </tr>
+            </table>
+
+        </div>
+
+
+
 
     <div id="statusdiv_container" style="display: none;">
       <b>Debug Messages</b>
