@@ -2,31 +2,32 @@
 import {default_config, defaults} from "./defaults";
 import {log, zapStorage, loadConfig, copyDictByKeys, removeChildrenReplaceWith, useIfElse, replace_elem_with_array_of_elems} from "./shared";
 
-function arraysEqual(arr1, arr2) {
+function arraysEqual (arr1, arr2) {
     if (arr1.length !== arr2.length)
         return false;
-    for (var i = arr1.length; i--;) {
+    for (let i = arr1.length; i--;) {
         if (arr1[i] !== arr2[i])
             return false;
     }
     return true;
 }
-var getCurrentWindowHost = function(cb) {
-    chrome.windows.getCurrent({populate:true}, (w) => {
-        for (var i=0;i<w.tabs.length;i++) {
-            var tab = w.tabs[i];
+let getCurrentWindowHost = function (cb) {
+    chrome.windows.getCurrent({populate: true }, (w) => {
+        for (let i=0;i<w.tabs.length;i++) {
+            let tab = w.tabs[i];
             if (tab && tab.active) {
-                var a = document.createElement('a');
+                let a = document.createElement('a');
                 a.href = tab.url;
-                var host = a.hostname;
+                let host = a.hostname;
                 return cb(host);
             }
         }
+
         return cb(null);
     });
 };
 
-var OptionsThingy = function() {
+let OptionsThingy = function() {
     this.current_settings = {};
 
     this.restorethings = [
@@ -37,7 +38,7 @@ var OptionsThingy = function() {
         ['user_whitelist', 'user_whitelist', false],
     ];
 
-    var tthis = this;
+    let tthis = this;
     this.savethings = [
         ['site_filter', 'change', function() {
             tthis.grayWhitelist();
@@ -100,7 +101,7 @@ var OptionsThingy = function() {
 
         }],
         ['whitelist_addconfig_button', 'click', function() {
-            var configwhitelist = tthis.getConfigWhitelist();
+            let configwhitelist = tthis.getConfigWhitelist();
             if (configwhitelist) {
                 document.getElementById('user_whitelist').value = 
                     configwhitelist;
@@ -119,7 +120,7 @@ var OptionsThingy = function() {
 
 OptionsThingy.prototype.grayWhitelist = function() {
 
-    var use_whitelist = 
+    let use_whitelist = 
         document.getElementById('site_filter').value == 'use_whitelist';
 
     [
@@ -132,12 +133,11 @@ OptionsThingy.prototype.grayWhitelist = function() {
         [ 'blacklist_add_button', true, ],
         [ 'user_blacklist', true, ],
         [ 'bl_td', true, ],
-    ].forEach((n) => {
-        var disable = (use_whitelist && n[1]) || (!use_whitelist && !n[1]);
-        var el = document.getElementById(n[0]);
-        el.disabled  = disable ? true : false;
+    ].forEach(n => {
+        let disable = (use_whitelist && n[1]) || (!use_whitelist && !n[1]);
+        let el = document.getElementById(n[0]);
+        el.disabled = disable ? true : false;
         el.className = disable ? 'disabled' : '';
-        // console.log(disable,el.disabled,el.className,el.id);
     });
 };
 
@@ -146,45 +146,46 @@ OptionsThingy.prototype.getConfigWhitelist = function() {
         this.current_settings.cfgdata.whitelist) {
         return this.current_settings.cfgdata.whitelist.join(' ');
     }
+
     return null;
 };
 
-var neatenList = function(listname, to_add = null) {
-    var bl = document.getElementById(listname);
+let neatenList = function (listname, to_add = null) {
+    let bl = document.getElementById(listname);
     if (to_add) bl.value += ' ' + to_add;
-    var il = bl.value.split(/[^\w\.-]+/)
+    let il = bl.value.split(/[^\w\.-]+/)
         .map((x) => { return x.trim(); })
         .filter((x) => { return x.length; });
-    var id = {};
+    let id = {};
     il.forEach((i) => { id[i] = 1; });
     il = Object.keys(id).sort();
     bl.value = il.join(' ');
     return il;
 };
 
-OptionsThingy.prototype.storeThings = function(dict, cb) {
-    var tthis = this;
-    chrome.storage.local.set(dict, function() {
+OptionsThingy.prototype.storeThings = function (dict, cb) {
+    const tthis = this;
+    chrome.storage.local.set(dict, () => {
         copyDictByKeys(tthis.current_settings, dict);
         return cb(tthis.current_settings);
     });
 };
 
-OptionsThingy.prototype.selectConfig = function(e) {
+OptionsThingy.prototype.selectConfig = function (e) {
     this.genericSelect(e, 'configsrc', this.saveConfigURL.bind(this));
 };
 
-OptionsThingy.prototype.selectImgReplConfig = function(e) {
+OptionsThingy.prototype.selectImgReplConfig = function (e) {
     this.genericSelect(e, 'imgreplsrcinput', this.saveImgReplURL.bind(this));
 };
 
-OptionsThingy.prototype.genericSelect = function(e, srcename, save_fn) {
-    var tgt = e.target || e.srcElement;
-    var id = tgt.id;
-    var new_url = tgt.value;
+OptionsThingy.prototype.genericSelect = function (e, srcename, save_fn) {
+    let tgt = e.target || e.srcElement;
+    let id = tgt.id;
+    let new_url = tgt.value;
     log('genericSelect(): ' + new_url);
-    var srcelem = document.getElementById(srcename);
-    var curr_url = srcelem.value;
+    let srcelem = document.getElementById(srcename);
+    let curr_url = srcelem.value;
 
     if (new_url !== curr_url) {
         srcelem.value = new_url;
@@ -192,10 +193,10 @@ OptionsThingy.prototype.genericSelect = function(e, srcename, save_fn) {
     }
 };
 
-OptionsThingy.prototype.save_config_edits = function() {
-    var jselem = document.getElementById('configjson');
-    var jsontext = jselem.value;
-    var new_config = null;
+OptionsThingy.prototype.save_config_edits = function () {
+    let jselem = document.getElementById('configjson');
+    let jsontext = jselem.value;
+    let new_config = null;
     try {
         new_config = JSON.parse(jsontext);
     } catch (e) {
@@ -205,39 +206,38 @@ OptionsThingy.prototype.save_config_edits = function() {
     if (new_config) {
         chrome.storage.local.set({
             'cfgdata': new_config,
-        }, function() {
-            jselem.value = JSON.stringify(new_config,null,2);
+        }, () => {
+            jselem.value = JSON.stringify(new_config, null, 2);
         });
     }
 };
 
-OptionsThingy.prototype.resetStorage = function() {
+OptionsThingy.prototype.resetStorage = function () {
     this.current_settings = {};
-    var tthis = this;
-    zapStorage(function(config_source) {
+    let tthis = this;
+    zapStorage(function (config_source) {
         tthis.current_settings.config_source = config_source;
         log('storage zapped');
-        loadConfig(tthis.current_settings, function(err, res) {
+        loadConfig(tthis.current_settings, (err, res) => {
             tthis.updateConfigDisplay(err, res);
             tthis.restorePluginOptions();
         }, default_config);
     });
 };
 
-OptionsThingy.prototype.dumb_cb = function() {
+OptionsThingy.prototype.dumb_cb = function () {
     // log('dumb_cb');
 };
 
-OptionsThingy.prototype.getCannedConfigList = function(cb) {
-    var args = ['buttonsdiv', 'confselect', 'configsrc', this.selectConfig.bind(this), defaults.buttons_fetch_url];
+OptionsThingy.prototype.getCannedConfigList = function (cb) {
     cb(null);
 };
 
-OptionsThingy.prototype.restorePluginOptions = function() {
+OptionsThingy.prototype.restorePluginOptions = function () {
     log('restorePluginOptions START');
 
-    var tthis = this;
-    chrome.storage.local.get(null, function(settings) {
+    let tthis = this;
+    chrome.storage.local.get(null, function (settings) {
 
         copyDictByKeys(tthis.current_settings, settings);
 
@@ -245,18 +245,18 @@ OptionsThingy.prototype.restorePluginOptions = function() {
         tthis.storeThings({
                 'config_source': defaults.config_source
             },
-            function() {});
+            function () {});
 
         tthis.finishRestoringOptions();
         loadConfig(tthis.current_settings, tthis.updateConfigDisplay.bind(tthis), default_config);
     });
 };
 
-OptionsThingy.prototype.finishRestoringOptions = function() {
+OptionsThingy.prototype.finishRestoringOptions = function () {
     log('finishRestoringOptions START');
-    var tthis = this;
-    var restoreThing = function(name, inpname, checkbox = false) {
-        var thingelem = document.getElementById(inpname);
+    let tthis = this;
+    let restoreThing = function(name, inpname, checkbox = false) {
+        const thingelem = document.getElementById(inpname);
         log(inpname);
         log(thingelem);
         if (tthis.current_settings.hasOwnProperty(name)) {
@@ -268,7 +268,7 @@ OptionsThingy.prototype.finishRestoringOptions = function() {
         } else {
             chrome.storage.local.set({
                 name: defaults[name]
-            }, function() {
+            }, function () {
                 if (checkbox) {
                     thingelem.checked = defaults[name];
                 } else {
@@ -278,7 +278,7 @@ OptionsThingy.prototype.finishRestoringOptions = function() {
         }
     };
 
-    for (var i = 0; i < this.restorethings.length; i++)
+    for (let i = 0; i < this.restorethings.length; i++)
         restoreThing.apply(this, this.restorethings[i]);
 
     this.grayWhitelist();
@@ -286,44 +286,45 @@ OptionsThingy.prototype.finishRestoringOptions = function() {
     log('finishRestoringOptions DONE');
 };
 
-OptionsThingy.prototype.saveEnabledActions = function() {
+OptionsThingy.prototype.saveEnabledActions = function () {
     log('saveEnabledActions');
-    var enelem = document.getElementById('actionstd');
-    var children = enelem.childNodes;
-    enabled = {};
-    for (var i = 0; i < children.length; i++) {
-        var groupdiv = children[i];
-        var divchildren = groupdiv.childNodes;
-        for (var j = 0; j < divchildren.length; j++) {
-            var cbox = divchildren[j];
+    let enelem = document.getElementById('actionstd');
+    let children = enelem.childNodes;
+    let enabled = {};
+    for (let i = 0; i < children.length; i++) {
+        let groupdiv = children[i];
+        let divchildren = groupdiv.childNodes;
+        for (let j = 0; j < divchildren.length; j++) {
+            let cbox = divchildren[j];
             if (cbox.nodeName === 'INPUT') {
-                var m = cbox.id.match(/^([\w-]+)_check/);
+                const m = cbox.id.match(/^([\w-]+)_check/);
                 if (m) {
-                    var action = m[1];
+                    let action = m[1];
                     enabled[action] = cbox.checked;
                 }
             }
         }
     }
+
     this.storeThings({
         'enabled_actions': enabled
-    }, function() {
+    }, function () {
         log(enabled);
         log('saved action changes');
     });
 };
 
 
-OptionsThingy.prototype.showEnabledActionsList = function(settings, cfg_actions) {
+OptionsThingy.prototype.showEnabledActionsList = function (settings, cfg_actions) {
     log('showEnabledActionsList()');
-    var enelem = document.getElementById('actionstd');
+    let enelem = document.getElementById('actionstd');
 
-    var enabled = {};
-    var action;
-    var enable_this = true;
-    var i;
+    let enabled = {};
+    let action;
+    let enable_this = true;
+    let i;
 
-    var action_names = Object.keys(cfg_actions);
+    let action_names = Object.keys(cfg_actions);
 
     // NEW way to handle enabled actions:
     // get a list of actions that the user can enable or disable.
@@ -338,28 +339,29 @@ OptionsThingy.prototype.showEnabledActionsList = function(settings, cfg_actions)
         } else if (cfg_actions[action].hasOwnProperty('default_enabled')) {
             enable_this = Boolean(cfg_actions[action].default_enabled);
         }
+
         enabled[action] = enable_this;
     }
 
     removeChildrenReplaceWith(enelem, []);
     for (i = 0; i < action_names.length; i++) {
         action = action_names[i];
-        var label_elem = document.createElement('span');
+        const label_elem = document.createElement('span');
         label_elem.textContent = action + ' ';
-        var check_elem = document.createElement('input');
+        const check_elem = document.createElement('input');
         check_elem.type = 'checkbox';
         check_elem.name = action + '_check';
         check_elem.value = action;
         check_elem.id = action + '_check';
         check_elem.checked = enabled[action];
         check_elem.onchange = this.saveEnabledActions.bind(this);
-        var groupingdiv = document.createElement('div');
+        let groupingdiv = document.createElement('div');
         groupingdiv.appendChild(label_elem);
         groupingdiv.appendChild(check_elem);
         groupingdiv.style.display = 'inline-block';
         enelem.appendChild(groupingdiv);
         if (i !== action_names.length - 1) {
-            var pipe_elem = document.createElement('span');
+            let pipe_elem = document.createElement('span');
             pipe_elem.textContent = ' | ';
             enelem.appendChild(pipe_elem);
         }
@@ -367,11 +369,11 @@ OptionsThingy.prototype.showEnabledActionsList = function(settings, cfg_actions)
     }
 };
 
-OptionsThingy.prototype.updateConfigDisplay = function(err, cfg) {
+OptionsThingy.prototype.updateConfigDisplay = function (err, cfg) {
     log('updateConfigDisplay START');
 
-    var jselem = document.getElementById('configjson');
-    var urlem = document.getElementById('configsrc');
+    let jselem = document.getElementById('configjson');
+    let urlem = document.getElementById('configsrc');
 
     if (this && this.hasOwnProperty('current_settings') && (err === null)) {
         // this is here rather than in earlier in restorePluginOptions
@@ -386,30 +388,30 @@ OptionsThingy.prototype.updateConfigDisplay = function(err, cfg) {
     log('updateConfigDisplay DONE');
 };
 
-OptionsThingy.prototype.saveGen = function(name, inpname, checkbox = false) {
+OptionsThingy.prototype.saveGen = function (name, inpname, checkbox = false) {
     log('saving ' + name);
-    var elem = document.getElementById(inpname);
-    var v;
+    let elem = document.getElementById(inpname);
+    let v;
     if (checkbox) {
         v = elem.checked;
     } else {
         v = elem.value;
     }
-    var sv = {};
+    let sv = {};
     sv[name] = v;
 
-    this.storeThings(sv, function() {
+    this.storeThings(sv, function () {
         log(name + ' saved');
     });
 };
 
 
-OptionsThingy.prototype.saveImgReplURL = function() {
+OptionsThingy.prototype.saveImgReplURL = function () {
     log('saveImgReplURL START');
-    var srcelem = document.getElementById('imgreplsrcinput');
-    var url = srcelem.value;
+    let srcelem = document.getElementById('imgreplsrcinput');
+    let url = srcelem.value;
 
-    var not_an_url = url.match(/^__(\w+)__$/);
+    let not_an_url = url.match(/^__(\w+)__$/);
     if (not_an_url) {
         this.storeThings({
             imgreplsrc: url,
@@ -417,14 +419,14 @@ OptionsThingy.prototype.saveImgReplURL = function() {
         return;
     }
 
-    var tthis = this;
+    let tthis = this;
     chrome.runtime.sendMessage(
         null, {
             cmd: 'get',
             url: url + '/img_list.json'
         }, null,
         function(resp) {
-            var imgrepldata = null;
+            let imgrepldata = null;
             if (resp.err == 'OK') {
                 try {
                     resp.text += "\n";
@@ -452,10 +454,10 @@ OptionsThingy.prototype.saveImgReplURL = function() {
 
 OptionsThingy.prototype.saveConfigURL = function() {
     log('saveConfigURL START');
-    var srcelem = document.getElementById('configsrc');
-    var url = srcelem.value;
+    let srcelem = document.getElementById('configsrc');
+    let url = srcelem.value;
 
-    var tthis = this;
+    let tthis = this;
     this.storeThings({
             'config_source': url,
             'config_valid': false,
@@ -471,8 +473,8 @@ OptionsThingy.prototype.saveConfigURL = function() {
 };
 
 OptionsThingy.prototype.setupSaveHandlers = function() {
-    for (var i = 0; i < this.savethings.length; i++) {
-        var st = this.savethings[i];
+    for (let i = 0; i < this.savethings.length; i++) {
+        let st = this.savethings[i];
         document.getElementById(st[0]).addEventListener(st[1], st[2]);
     }
 };
@@ -480,7 +482,7 @@ OptionsThingy.prototype.setupSaveHandlers = function() {
 
 function setup_handlers() {
 
-    var ot = new OptionsThingy();
+    let ot = new OptionsThingy();
 
     log('adding onloaded handler');
     document.addEventListener('DOMContentLoaded', ot.restorePluginOptions.bind(ot));
@@ -489,8 +491,8 @@ function setup_handlers() {
     ot.setupSaveHandlers();
 
     document.getElementById('showconfigcheck').addEventListener('change', function(ev) {
-        var configdiv = document.getElementById('configdiv');
-        var tgt = ev.target || ev.srcElement;
+        let configdiv = document.getElementById('configdiv');
+        let tgt = ev.target || ev.srcElement;
         configdiv.style.display = tgt.checked ? 'block' : 'none';
     });
 }

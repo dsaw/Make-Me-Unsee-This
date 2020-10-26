@@ -1,6 +1,6 @@
 /* jshint esversion:6 */
 
-var names = [
+const names = [
 // https://github.com/t-davidson/hate-speech-and-offensive-language
 'Tarrant, Brenton Harrison', 'Lahouaiej-Bouhlel, Mohamed Salmene', 'Breivik, Anders Behring', 'Mateen, Omar Mir Seddique', 'Masharipov, Abdulkadir', 'Yacoubi, Seifeddine Rezgui',
 'Ibragimov, Ahmed', 'Farooq, Ashraf Ali Mohammed', 'Morral Roca, Mateu', 'Goldstein, Baruch Kappel', 'Abbas al-Baqir Abbas', 'Fieschi, Giuseppe Marco', 'Kurbanjan Hemit', 'Abdurahman Azat',
@@ -26,8 +26,8 @@ var names = [
 
 
 
-var make_default_config = function(namelist) {
-    var o = {
+let make_default_config = function(namelist) {
+    let o = {
 	    run_info: {
 		    count: 5,
 		    startTimeout: 1000,
@@ -36,63 +36,57 @@ var make_default_config = function(namelist) {
 	    },
         match_style: "background-color: black; color: black",
         replacement: 'XXXXXXXX',
-        actions: {},
+        actions: {}
     };
 
-    namelist.forEach((name) => {
-        var bycomma = name.split(/,\s/), byspace;
-        var sur = null; 
-        var therest = [];
-        if (bycomma.length == 2) {
+    namelist.forEach(name => {
+        let bycomma = name.split(/,\s/), byspace;
+        let sur = null; 
+        let therest = [];
+        if (bycomma.length === 2) {
             sur = bycomma[0];
             therest = bycomma[1].split(' ');
         } else {
             byspace = name.split(' ');
             sur = byspace.slice(-1)[0];
-            therest = byspace.slice(0,-1);
+            therest = byspace.slice(0, -1);
         }
 
 
-        var first = null;
-        var middles = [];
+        let first = null;
+        let middles = [];
         if (therest.length > 1) {
             first = therest[0];
             middles = therest.slice(1);
-        } else if (therest.length) {
+        } else if (therest.length > 0) {
             first = therest[0];
             middles = [];
         }
 
-        var re_chunks = [];
-        var img_re_chunks = [];
-
-        if (false) {
-            console.log('first',first);
-            console.log('middles',middles);
-            console.log('sur',sur);
-            console.log('therest',therest);
-            console.log('----');
-        }
+        let re_chunks = [];
+        let img_re_chunks = [];
 
         if (first) {
             re_chunks.push(["((",first,')\\s)'].join(''));
             img_re_chunks.push(['(',first,'\\s)?'].join(''));
         }
+
         if (middles.length) {
             middles.forEach((middle) => {
                 re_chunks.push(["((",middle,')\\s)?'].join(''));
                 img_re_chunks.push(['(',middle,')\\s)?'].join(''));
             });
         }
+
         if (sur) {
             re_chunks.push(["(",sur,')(?!\\w)'].join(''));
             img_re_chunks.push(['(',sur,')(?!\\w)'].join(''));
         }
 
-        var action = {
+        let action = {
             default_enabled: true,
             find_regex: [re_chunks.join(''), 'gi'],
-            img_find_regex: [img_re_chunks.join(''), 'gi'],
+            img_find_regex: [img_re_chunks.join(''), 'gi']
         };
         o.actions[sur] = action;
     });
@@ -100,11 +94,11 @@ var make_default_config = function(namelist) {
     return o;
 };
 
-export var default_config = make_default_config(names);
+export const default_config = make_default_config(names);
 
 // console.log(JSON.stringify(default_config,null,2));
 
-export var defaults = {
+export const defaults = {
     // classname for all insult styles
     insult_classname: 'blackedout',
 
@@ -118,11 +112,11 @@ export var defaults = {
     replace_images: false,
     //
     // some pages never to run on
-    user_blacklist: "mail.google.com mail.yahoo.com",
+    user_blacklist: "mail.google.com mail.yahoo.com youtube.com",
 
     // some pages to run on
     user_whitelist: [
-	    "www.foxnews.com", "cnn.com", "www.bbc.com/news",
+	    "www.foxnews.com", "google.com", "cnn.com", "www.bbc.com/news",
 	    "www.bbc.co.uk/news", "www.theguardian.com",
 	    "www.theguardian.co.uk", "nytimes.com", "facebook.com",
 	    "washingtonpost.com", "salon.com", "slate.com", "buzzfeed.com",

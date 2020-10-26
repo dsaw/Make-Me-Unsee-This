@@ -1,7 +1,8 @@
 /* jshint esversion: 6 */
 import {defaults} from "./defaults";
 import {log} from "./shared";
-export var ControlTimers = function(callback) {
+
+export let ControlTimers = function (callback) {
     this.runInfo = {
         trackMutations: false,
         currTimeout: 1000,
@@ -14,9 +15,9 @@ export var ControlTimers = function(callback) {
     this.stop_completely = false;
 };
 
-ControlTimers.prototype.preconfig_init = function(storeddata) {
+ControlTimers.prototype.preconfig_init = function (storeddata) {
 
-    // Extra complexity to deal with the old "run_anywhere" variable
+    // Extra complexity to deal with the old "run_anywhere" letiable
     // that the user may have set and we want to make sure it carried
     // forward to user doesn't have to set it again.
     if (storeddata.hasOwnProperty('site_filter')) {
@@ -39,7 +40,7 @@ ControlTimers.prototype.preconfig_init = function(storeddata) {
     }
 };
 
-ControlTimers.prototype.isThisPageRunnable = function() {
+ControlTimers.prototype.isThisPageRunnable = function () {
     if (this.use_blacklist) {
         return !this.isThisPageBlackListed();
     } else {
@@ -47,36 +48,37 @@ ControlTimers.prototype.isThisPageRunnable = function() {
     }
 };
 
-ControlTimers.prototype.matchesList = function(lstr) {
-    var url = document.location.href;
+ControlTimers.prototype.matchesList = function (lstr) {
+    let url = document.location.href;
     if (lstr && lstr.length) {
-        var list = lstr.split(/[^\w\.-]+/)
+        const list = lstr.split(/[^\w\.-]+/)
             .map((x) => { return x.trim(); })
             .filter((x) => { return x.length;});
         // log(list);
-        for (var i=0; i< list.length; i++) {
-            var l = list[i];
-            var re = new RegExp('https?://(\\w+\\.)?' + l + '\\b');
+        for (let i=0; i< list.length; i++) {
+            let l = list[i];
+            const re = new RegExp('https?://(\\w+\\.)?' + l + '\\b');
             if (url.match(re)) {
                 log('list match because ' + l);
                 return true;
             }
         }
     }
+
     return false;
 };
 
-ControlTimers.prototype.isThisPageBlackListed = function() {
+ControlTimers.prototype.isThisPageBlackListed = function () {
     log('isThisPageBlackListed');
     return this.matchesList(this.user_blacklist);
 };
 
-ControlTimers.prototype.isThisPageWhiteListed = function() {
+ControlTimers.prototype.isThisPageWhiteListed = function () {
     log('isThisPageWhiteListed');
     return this.matchesList(this.user_whitelist);
 };
 
-ControlTimers.prototype.postconfig_init = function(current_config, current_settings) {
+ControlTimers.prototype.postconfig_init = function (current_config, current_settings) {
     log("postconfig_init()");
     this.config = current_config;
 
@@ -87,7 +89,7 @@ ControlTimers.prototype.postconfig_init = function(current_config, current_setti
     // whitelist, whereby the whitelist from the config is stored to the 
     // user's whitelist.
     if (!this.hasOwnProperty('user_whitelist')) {
-        var lstr = null;
+        let lstr = null;
         if (this.config.whitelist) {
             lstr = this.config.whitelist.join(' ');
         } else if (defaults.user_whitelist) {
@@ -120,21 +122,21 @@ ControlTimers.prototype.postconfig_init = function(current_config, current_setti
 };
 
 
-ControlTimers.prototype.startMutationTracking = function() {
-    var tthis = this;
-    var target = document.getElementsByTagName('BODY')[0];
-    this.observer = new MutationObserver(function(mutations) {
+ControlTimers.prototype.startMutationTracking = function () {
+    const tthis = this;
+    const target = document.getElementsByTagName('BODY')[0];
+    this.observer = new MutationObserver( (mutations) => {
         tthis.run_again = true;
     });
     this.observer.observe(target, {
         childList: true,
         characterData: true,
-        subtree: true,
+        subtree: true
     });
 };
 
 
-ControlTimers.prototype.tick = function() {
+ControlTimers.prototype.tick = function () {
     log('tick()');
     if (this.run_again) {
         this.run_again = false;
@@ -144,6 +146,7 @@ ControlTimers.prototype.tick = function() {
             log(e);
         }
     }
+
     if (this.stop_completely) {
         log('stopping completely');
     } else {
@@ -151,18 +154,20 @@ ControlTimers.prototype.tick = function() {
     }
 };
 
-ControlTimers.prototype.backoffTimer = function() {
+ControlTimers.prototype.backoffTimer = function () {
     log('backoffTimer()');
     this.run_again = true;
     this.runInfo.currTimeout *= this.config.run_info.timeMultiplier;
     if (this.runInfo.currTimeout > this.runInfo.maxTimeout) {
         this.runInfo.currTimeout = this.runInfo.maxTimeout;
     }
+
     if (this.runInfo.runCount) {
         this.runInfo.runCount -= 1;
         setTimeout(this.backoffTimer.bind(this), this.runInfo.currTimeout);
     } else {
         this.stop_completely = true;
     }
+
     log(this.runInfo);
 };
