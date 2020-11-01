@@ -96,8 +96,6 @@ let make_default_config = function(namelist) {
 
 export const default_config = make_default_config(names);
 
-// console.log(JSON.stringify(default_config,null,2));
-
 export const defaults = {
     // classname for all insult styles
     insult_classname: 'blackedout',
@@ -112,7 +110,7 @@ export const defaults = {
     replace_images: false,
     //
     // some pages never to run on
-    user_blacklist: "mail.google.com mail.yahoo.com youtube.com",
+    user_blacklist: "mail.google.com mail.yahoo.com youtube.com github.com",
 
     // some pages to run on
     user_whitelist: [

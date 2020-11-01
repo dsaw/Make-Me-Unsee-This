@@ -2,14 +2,14 @@
 import * as tf from '@tensorflow/tfjs';
 import * as toxicity from '@tensorflow-models/toxicity';
 import {
-    default_config,
-    defaults
-} from "./defaults";
+	default_config,
+	defaults
+} from './defaults';
 import {
-    log,
-    useIfElse,
-    replace_elem_with_array_of_elems
-} from "./shared";
+	log,
+	useIfElse,
+	replace_elem_with_array_of_elems
+} from './shared';
 
 export const TextChanger = function (settings, config) {
 	this.current_settings = settings;
@@ -69,7 +69,7 @@ TextChanger.prototype.make_replacement_elems_array = function (args) {
 	const match_style = useIfElse(args, 'match_style', 'background-color: black; color: black;');
 	const repl_array = [];
 	let repl_count = 0;
-        let chunk;
+	let chunk;
 	for (let k = 0; k < broken_texts.length; k++) {
 		chunk = broken_texts[k];
 		if (chunk.match) {
@@ -107,12 +107,14 @@ TextChanger.prototype.run = async function (elements = null, getRunnableActions)
 	}
 
 	let action_name;
-	let toxicComment,  visit_attrib_name = "dtv_";
+	let toxicComment; let 
+visit_attrib_name = 'dtv_';
 	const threshold = 0.9;
 
 	await tf.setBackend('cpu');
 	const model = await toxicity.load(threshold);
-	const tthis = this;
+	const tthis = this; const 
+wordMtchRegex = new RegExp('\w+?');
 
 	const {
 		replacement
@@ -122,7 +124,7 @@ TextChanger.prototype.run = async function (elements = null, getRunnableActions)
 	} = tthis.current_config;
 
 	if (!elements) {
-		elements = document.querySelectorAll('p');
+		elements = document.querySelectorAll('div, p');
 	}
 
 	for (let i = 0; i < elements.length; i++) {
@@ -132,8 +134,8 @@ TextChanger.prototype.run = async function (elements = null, getRunnableActions)
 				for (let j = 0; j < element.childNodes.length; j++) {
 					const node = element.childNodes[j];
 					if (node.nodeType === 3) {
-						if ((node.parentElement !== undefined) &&
-                                            (node.parentElement.nodeName === 'TITLE')) {
+						if (((node.parentElement !== undefined) &&
+                                            (node.parentElement.nodeName === 'TITLE')) || !wordMtchRegex.test(node.nodeValue.trim())) {
 							continue;
 						}
 
@@ -154,15 +156,15 @@ TextChanger.prototype.run = async function (elements = null, getRunnableActions)
 										toxicComment = comment[0];
 										const repl_array = [];
 										let repl_count = 0;
-										
-											const unode = document.createElement('span');
-											unode.style = match_style;
-											unode.title = 'was: "' + toxicComment + '"';
-											unode.className = defaults.insult_classname;
-											unode.append(document.createTextNode(replacement));
-											repl_array.push(unode);
-											repl_count += 1;
-										
+
+										const unode = document.createElement('span');
+										unode.style = match_style;
+										unode.title = 'was: "' + toxicComment + '"';
+										unode.className = defaults.insult_classname;
+										unode.append(document.createTextNode(replacement));
+										repl_array.push(unode);
+										repl_count += 1;
+
 
 										if (repl_count) {
 											replace_elem_with_array_of_elems(node, repl_array);
