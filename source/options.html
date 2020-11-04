@@ -13,9 +13,6 @@ textarea.disabled {
     color: rgb(175,175,174);
 }
 
-.tooltip {
-}
-
 .tooltiptext {
     opacity: 0;
     width: 200px;
@@ -120,7 +117,7 @@ textarea.disabled {
                             <input type="button" value="Set From Config" id="whitelist_addconfig_button">
                         </div>
                     </div>
-                    <p style="" class="tooltiptext">Enter a space-separate list of website
+                    <p class="tooltiptext">Enter a space-separate list of website
                     hosts that you want to be included. Make Me Unsee This will run on these sites
                     <em>only</em>.</p>
                 </td>
@@ -138,7 +135,7 @@ textarea.disabled {
 
                         </div>
                     </div>
-                    <p style="" class="tooltiptext">Enter a space-separate list of websites
+                    <p class="tooltiptext">Enter a space-separate list of websites
 		    that you do <em>not</em> want to be checked for offensive language. All other sites will
 		    be checked.</p>
                 </td>
@@ -169,26 +166,14 @@ textarea.disabled {
             </div>
         </div>
     </div>
-    <div id="boilerplatediv">
-      <hr>
-      <b>Need support? Visit one of the following:</b>
-      <table width="100%">
-          <tr><td valign="top"><a target="_blank" href="https://tellmamauk.org/about-us/">Tell MAMA: Measuring Anti-Muslim Attacks</a></td></tr>
-          <tr><td valign="top"><a target="_blank" href="https://github.com/djacobow/blackouthate">CST: Protecting Jewish Community</a></td></tr>
-          <tr><td valign="top"><a target="_blank" href="https://www.victimsupport.org.uk/">Victim Support - Wales</a></td></tr>
-          <tr><td valign="top"><a target="_blank" href="https://www.getsafeonline.org/protecting-yourself/hate-content/">Get Safe Online - Hate Content</a></td></tr>
-          <tr><td valign="top"><a target="_blank" href="https://www.equalityadvisoryservice.com/app/help">Equality Advisory and Support Service</a></td></tr>
-          <tr><td valign="top"><a target="_blank" href="https://www.stophateuk.org/">Stop Hate UK</a></td></tr>
-      </table>
-      <hr>
-    </div>
+    <hr>
     <div id="reporthate">
         <b>Report concering content</b><br>
         Hate based on:<br>
         <table width="100%">
             <div class="tooltip">
                 <tr>
-                    <td width="19%">
+                    <td width="17%">
                         Race
                         <input class="tooltip" type="checkbox" id="report_race" name="report_race" value="bloop">
                     </td>
@@ -204,8 +189,8 @@ textarea.disabled {
                         Disability
                         <input class="tooltip" type="checkbox" id="report_disability" name="report_disability" value="bloop">
                     </td>
-                    <td width="24%">
-                        Transgender
+                    <td width="26%">
+                        Transgenderism
                         <input class="tooltip" type="checkbox" id="report_transgender" name="report_transgender" value="bloop">
                     </td>
                 </tr>
@@ -251,37 +236,41 @@ textarea.disabled {
             <table width="100%">
                 <div class="tooltip">
                     <tr>
-                        <td width="14%">
+                        <td width="20%">
                             Tell MAMA
                             <input class="tooltip" type="checkbox" id="report_to_tell_mama" name="report_to_tell_mama" value="bloop">
                         </td>
-                        <td width="14%">
+                        <td width="20%">
                             CST
                             <input class="tooltip" type="checkbox" id="report_to_cst" name="report_to_cst" value="bloop">
                         </td>
-                        <td width="14%">
+                        <td width="20%">
                             GALOP
                             <input class="tooltip" type="checkbox" id="report_to_galop" name="report_to_galop" value="bloop">
                         </td>
-                        <td width="14%">
+                        <td width="40%">
                             Victim Support Wales
                             <input class="tooltip" type="checkbox" id="report_to_victim_support_wales" name="report_to_victim_support_wales" value="bloop">
+                    </tr>
+                    <tr>
                         </td>
-                        <td width="14%">
-                            True Vision (Online Hate Crime)
-                            <input class="tooltip" type="checkbox" id="report_to_true_vision" name="report_to_true_vision" value="bloop">
+                        <td width="20%">
                         </td>
-                        <td width="14%">
+                        <td width="20%">
                             EASS
                             <input class="tooltip" type="checkbox" id="report_to_EASS" name="report_to_EASS" value="bloop">
                         </td>
-                        <td width="14%">
+                        <td width="20%">
                             Stop Hate
                             <input class="tooltip" type="checkbox" id="report_to_stop_hate" name="report_to_stop_hate" value="bloop">
                         </td>
-                    </tr>
+                        <td width="40%">
+                            TrueVision (Hate Crime)
+                            <input class="tooltip" type="checkbox" id="report_to_true_vision" name="report_to_true_vision" value="bloop">
+                        </td>
+                    <tr>
             </table>
-
+            <input type="button" value="Submit" id="submit_report_button">
         </div>
 
 
@@ -295,6 +284,18 @@ textarea.disabled {
    <!-- <script src="defaults.js"></script>
     <script src="shared.js"></script>-->
     <script src="options.js"></script>
+  </div>
+  <div id="boilerplatediv">
+    <hr>
+    <b>Need support? Visit one of the following:</b>
+    <table width="100%">
+        <tr><td valign="top"><a target="_blank" href="https://tellmamauk.org/about-us/">Tell MAMA: Measuring Anti-Muslim Attacks</a></td></tr>
+        <tr><td valign="top"><a target="_blank" href="https://github.com/djacobow/blackouthate">CST: Protecting Jewish Community</a></td></tr>
+        <tr><td valign="top"><a target="_blank" href="https://www.victimsupport.org.uk/">Victim Support - Wales</a></td></tr>
+        <tr><td valign="top"><a target="_blank" href="https://www.getsafeonline.org/protecting-yourself/hate-content/">Get Safe Online - Hate Content</a></td></tr>
+        <tr><td valign="top"><a target="_blank" href="https://www.equalityadvisoryservice.com/app/help">Equality Advisory and Support Service</a></td></tr>
+        <tr><td valign="top"><a target="_blank" href="https://www.stophateuk.org/">Stop Hate UK</a></td></tr>
+    </table>
   </div>
   </body>
 </html>
