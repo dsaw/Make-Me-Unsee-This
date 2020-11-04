@@ -11,7 +11,7 @@ Sometimes you just want a nicer browsing experience.
 `npm install`
 - Edit the code in `source` during development.
 - Once done, run
-  `yarn run build`.
+  `npm run build`.
 - To test, load the `distribution` folder in the browser.
 
 ### Date
