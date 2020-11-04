@@ -7,9 +7,12 @@ This is a browser extension to black out some of the hate speech and offensive l
 Sometimes you just want a nicer browsing experience.
 
 ## Development
-Extension uses Webpack. Edit the code in `source`.
-Once done, run `yarn run build`.
-Then load the `distribution` in Chrome.
+- Install the dependencies
+`npm install`
+- Edit the code in `source` during development.
+- Once done, run
+  `yarn run build`.
+- To test, load the `distribution` folder in the browser.
 
 ### Date
 
