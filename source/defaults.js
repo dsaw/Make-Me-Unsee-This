@@ -97,8 +97,10 @@ let make_default_config = function(namelist) {
 export const default_config = make_default_config(names);
 
 export const defaults = {
-    // classname for all insult styles
+
     insult_classname: 'blackedout',
+
+    threshold: 0.9,
 
     // run on any page or just whitelist
     site_filter: 'use_blacklist',
@@ -106,11 +108,10 @@ export const defaults = {
     // use the mutation approach or timer approach
     track_mutations: false,
 
-    // should we try to replace images?
     replace_images: false,
     //
     // some pages never to run on
-    user_blacklist: "mail.google.com mail.yahoo.com youtube.com github.com",
+    user_blacklist: "mail.google.com mail.yahoo.com youtube.com github.com docs.plus discord.com",
 
     // some pages to run on
     user_whitelist: [
@@ -134,6 +135,6 @@ export const defaults = {
 	    "westernjournalism.com", "washingtonexaminer.com", "tpnn.com",
 	    "newsbusters.org", "twitchy.com", "news.google.com",
 	    "npr.org", "cnbc.com", "reuters.com", "tvnz.co.nz",
-        "nzherald.co.nz", "press.co.nz", "stuff.co.nz"
+        "nzherald.co.nz", "press.co.nz", "stuff.co.nz", "storage.googleapis.com/"
     ].join(' '),
 };

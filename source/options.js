@@ -2,15 +2,6 @@
 import {default_config, defaults} from "./defaults";
 import {log, zapStorage, loadConfig, copyDictByKeys, removeChildrenReplaceWith, useIfElse, replace_elem_with_array_of_elems} from "./shared";
 
-function arraysEqual (arr1, arr2) {
-    if (arr1.length !== arr2.length)
-        return false;
-    for (let i = arr1.length; i--;) {
-        if (arr1[i] !== arr2[i])
-            return false;
-    }
-    return true;
-}
 let getCurrentWindowHost = function (cb) {
     chrome.windows.getCurrent({populate: true }, (w) => {
         for (let i=0;i<w.tabs.length;i++) {

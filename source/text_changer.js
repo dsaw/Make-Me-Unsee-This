@@ -107,14 +107,14 @@ TextChanger.prototype.run = async function (elements = null, getRunnableActions)
 	}
 
 	let action_name;
-	let toxicComment; let 
+	let toxicComment; 
+	let 
 visit_attrib_name = 'dtv_';
 	const threshold = 0.9;
 
 	await tf.setBackend('cpu');
 	const model = await toxicity.load(threshold);
-	const tthis = this; const 
-wordMtchRegex = new RegExp('\w+?');
+	const tthis = this;
 
 	const {
 		replacement
@@ -122,6 +122,7 @@ wordMtchRegex = new RegExp('\w+?');
 	const {
 		match_style
 	} = tthis.current_config;
+	let actions_to_run = getRunnableActions(tthis.current_config.actions, this.current_settings);
 
 	if (!elements) {
 		elements = document.querySelectorAll('div, p');
@@ -130,12 +131,14 @@ wordMtchRegex = new RegExp('\w+?');
 	for (let i = 0; i < elements.length; i++) {
 		const element = elements[i];
 		try {
+			visit_attrib_name = "dtv_";
 			if (!element.hasAttribute(visit_attrib_name)) {
 				for (let j = 0; j < element.childNodes.length; j++) {
 					const node = element.childNodes[j];
 					if (node.nodeType === 3) {
 						if (((node.parentElement !== undefined) &&
-                                            (node.parentElement.nodeName === 'TITLE')) || !wordMtchRegex.test(node.nodeValue.trim())) {
+                                            (node.parentElement.nodeName === 'TITLE')) || !node.nodeValue.trim()) {
+                            // if text is filled with whitespace then don't process it..
 							continue;
 						}
 
@@ -181,9 +184,37 @@ wordMtchRegex = new RegExp('\w+?');
 								});
 							});
 						});
-					}
+    
+                        if (!toxicComment) {
+							// manually check for hate speech 
+							for (let n = 0; n < actions_to_run.length; n++) {
+								action_name = actions_to_run[n];
+								visit_attrib_name = '_dtv_' + action_name;
+								action = tthis.current_config.actions[action_name];
+								let search_regex = new RegExp(action.find_regex[0],
+									action.find_regex[1]);
+									broken_texts = tthis.find_match_nonmatch_chunks(text, search_regex);
+
+                                if (broken_texts.length) {
+                                    var rr = tthis.make_replacement_elems_array({
+                                        action_name: action_name,
+                                        action: action,
+                                        broken_texts: broken_texts,
+                                        match_style: match_style,
+                                        replacement: replacement,
+                                        node: node
+                                    }); }
+
+                                if (rr.repl_count) {
+                                        replace_elem_with_array_of_elems(node, rr.repl_array);
+                                
+                                element.setAttribute(visit_attrib_name, '1');
+							} 
+                        }
+                    	}
 				}
 			}
+		  }
 		} catch (error) {
 			log('exception');
 			log(error);
