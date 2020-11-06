@@ -54,6 +54,6 @@
     ],
     "web_accessible_resources":[
         "empty_image.png",
-        "icons/eye128.png"
+        "icons/*.png"
     ]
 }
