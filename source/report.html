@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Make Me Unsee This Config</title>
+    <style>
+
+td.disabled {
+    color: rgb(175,175,174);
+}
+textarea.disabled {
+    background-color: rgb(236,236,236);
+    color: rgb(175,175,174);
+}
+
+.tooltiptext {
+    opacity: 0;
+    width: 200px;
+    background-color: #ffffcc;
+    color: black;
+    padding: 5px 0;
+    border-radius: 3px;
+    position: absolute;
+    z-index: 1;
+    border: 1px solid black;
+    line-height: 100%;
+}
+
+.tooltip:not(:hover) + .tooltiptext {
+    transition: opacity 0.3s linear;
+    transition: visibility 0.3s step-end;
+    opacity: 0.00;
+    visibility: hidden;
+}
+
+.tooltip:hover + .tooltiptext {
+    transition: opacity 0.3s linear;
+    visibility: visible;
+    opacity: 1.00;
+}
+    </style>
+  </head>
+  <body style="font-family: Arial, sans-serif; font-size: 11px; background-color: #e0e0e0; width: 430px;">
+ 
+
+
+<div id="reporthate">
+    <b>Report concerning content</b><br>
+    Hate based on:<br>
+    <form action="mailto:info@w3docs.com" method="post" enctype="multipart/form-data">
+    <table width="100%">
+        <div class="tooltip">
+            <tr>
+                <td width="17%">
+                    Race
+                    <input class="tooltip" type="checkbox" id="report_race" name="report_race" value="bloop">
+                </td>
+                <td width="19%">
+                    Religion
+                    <input class="tooltip" type="checkbox" id="report_religion" name="report_religion" value="bloop">
+                </td>
+                <td width="19%">
+                    Sexuality
+                    <input class="tooltip" type="checkbox" id="report_sex" name="report_sex" value="bloop">
+                </td>
+                <td width="19%">
+                    Disability
+                    <input class="tooltip" type="checkbox" id="report_disability" name="report_disability" value="bloop">
+                </td>
+                <td width="26%">
+                    Transgenderism
+                    <input class="tooltip" type="checkbox" id="report_transgender" name="report_transgender" value="bloop">
+                </td>
+            </tr>
+    </table>
+
+    <div class="tooltip" style="display: flex;">
+        Describe what happened: 
+        <textarea type="text" id="incident_description" cols="35" rows="1"></textarea>
+    </div>
+    <div class="tooltip" style="display: flex;">
+        When did it happen?
+        <input type="datetime-local" id="incident_time" name="incident_time"></input>
+    </div>
+    <div class="tooltip" style="display: flex;">
+        Where did it happen (link/app name):
+        <textarea type="text" id="incident_description" cols="35" rows="1"></textarea>
+    </div>
+    <div class="tooltip">
+        Evidence Upload: 
+        
+            <input type="file" id="myFile" name="filename">
+            <input type="submit">
+      
+    </div>
+    <div class="tooltip">
+        Do you want to be contacted about this?
+        <table width="50%">
+            <div class="tooltip">
+                <tr>
+                    <td width="25%">
+                        Yes
+                        <input class="tooltip" type="checkbox" id="report_contacted_yes" name="report_contacted_yes" value="bloop">
+                    </td>
+                    <td width="25%">
+                        No
+                        <input class="tooltip" type="checkbox" id="report_contacted_no" name="report_contacted_no" value="bloop">
+                    </td>
+        </table>
+    </div>
+
+    <div class="tooltip">
+        Where to report to:
+        <table width="100%">
+            <div class="tooltip">
+                <tr>
+                    <td width="20%">
+                        Tell MAMA
+                        <input class="tooltip" type="checkbox" id="report_to_tell_mama" name="report_to_tell_mama" value="bloop">
+                    </td>
+                    <td width="20%">
+                        CST
+                        <input class="tooltip" type="checkbox" id="report_to_cst" name="report_to_cst" value="bloop">
+                    </td>
+                    <td width="20%">
+                        GALOP
+                        <input class="tooltip" type="checkbox" id="report_to_galop" name="report_to_galop" value="bloop">
+                    </td>
+                    <td width="40%">
+                        Victim Support Wales
+                        <input class="tooltip" type="checkbox" id="report_to_victim_support_wales" name="report_to_victim_support_wales" value="bloop">
+                </tr>
+                <tr>
+                    </td>
+                    <td width="20%">
+                    </td>
+                    <td width="20%">
+                        EASS
+                        <input class="tooltip" type="checkbox" id="report_to_EASS" name="report_to_EASS" value="bloop">
+                    </td>
+                    <td width="20%">
+                        Stop Hate
+                        <input class="tooltip" type="checkbox" id="report_to_stop_hate" name="report_to_stop_hate" value="bloop">
+                    </td>
+                    <td width="40%">
+                        TrueVision (Hate Crime)
+                        <input class="tooltip" type="checkbox" id="report_to_true_vision" name="report_to_true_vision" value="bloop">
+                    </td>
+                <tr>
+        </table>
+    </div>
+
+</form>
+
+
+
+
+<div id="statusdiv_container" style="display: none;">
+  <b>Debug Messages</b>
+  <div id="statusdiv" style="background-color: lightyellow; width:100%; height:30px; overflow-y:scroll">
+  </div>
+</div>
+
+
+</div>
+<div id="boilerplatediv">
+<hr>
+<b>Need support? Visit one of the following:</b>
+<table width="100%">
+    <tr><td valign="top"><a target="_blank" href="https://tellmamauk.org/about-us/">Tell MAMA: Measuring Anti-Muslim Attacks</a></td></tr>
+    <tr><td valign="top"><a target="_blank" href="https://github.com/djacobow/blackouthate">CST: Protecting Jewish Community</a></td></tr>
+    <tr><td valign="top"><a target="_blank" href="https://www.victimsupport.org.uk/">Victim Support - Wales</a></td></tr>
+    <tr><td valign="top"><a target="_blank" href="https://www.getsafeonline.org/protecting-yourself/hate-content/">Get Safe Online - Hate Content</a></td></tr>
+    <tr><td valign="top"><a target="_blank" href="https://www.equalityadvisoryservice.com/app/help">Equality Advisory and Support Service</a></td></tr>
+    <tr><td valign="top"><a target="_blank" href="https://www.stophateuk.org/">Stop Hate UK</a></td></tr>
+</table>
+</div>
+
+</body>
+</html>

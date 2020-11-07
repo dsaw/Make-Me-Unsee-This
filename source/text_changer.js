@@ -125,7 +125,7 @@ visit_attrib_name = 'dtv_';
 	let actions_to_run = getRunnableActions(tthis.current_config.actions, this.current_settings);
 
 	if (!elements) {
-		elements = document.querySelectorAll('div, p');
+		elements = document.querySelectorAll('div, p, header, article');
 	}
 
 	for (let i = 0; i < elements.length; i++) {
